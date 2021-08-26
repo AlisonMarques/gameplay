@@ -1,4 +1,4 @@
-import { StyleSheet } from 'react-native'
+import { StyleSheet } from 'react-native';
 // biblioteca para fazer a responsividade do topo do iphone
 import { getStatusBarHeight } from 'react-native-iphone-x-helper';
 
@@ -13,9 +13,9 @@ export const style = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-between',
     marginTop: getStatusBarHeight() + 26,
-    marginBottom: 42
+    marginBottom: 42,
   },
-   
+
   content: {
     marginTop: 42,
   },
@@ -23,8 +23,8 @@ export const style = StyleSheet.create({
   matches: {
     marginTop: 24,
     marginLeft: 24,
-  }
-})
+  },
+});
 
 // export const Container = styled.View`
 //   flex: 1;
@@ -35,6 +35,6 @@ export const style = StyleSheet.create({
 //   padding: 24px;
 //   flex-direction: row;
 //   justify-content: space-between;
-//   margin-top: 26px;
+//   margin-top: ${getStatusBarHeight() + 26}px;
 //   margin-bottom: 42px;
 // `;
