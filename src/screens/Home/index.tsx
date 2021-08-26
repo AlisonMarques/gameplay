@@ -7,6 +7,7 @@ import { Profile } from '../../components/Profile';
 import { ListHeader } from '../../components/ListHeader';
 import { Appointment } from '../../components/Appointment';
 import { ListDivider } from '../../components/ListDivider';
+import { Background } from '../../components/Background';
 
 import { style } from './style';
 
@@ -49,28 +50,30 @@ export function Home() {
   }
 
   return (
-    <View style={style.container}>
-      <View style={style.header}>
-        <Profile />
-        <ButtonAdd activeOpacity={0.7} />
-      </View>
+    <Background>
+      <View style={style.container}>
+        <View style={style.header}>
+          <Profile />
+          <ButtonAdd activeOpacity={0.7} />
+        </View>
 
-      <CategorySelect
-        categorySelected={category}
-        setCategory={hadleCategorySelect}
-      />
-
-      <View style={style.content}>
-        <ListHeader title="Partidas agendadas" subtitle="Total 6" />
-        <FlatList
-          data={appointments}
-          keyExtractor={(item) => item.id}
-          renderItem={({ item }) => <Appointment data={item} />}
-          ItemSeparatorComponent={() => <ListDivider />}
-          style={style.matches}
-          showsVerticalScrollIndicator={false}
+        <CategorySelect
+          categorySelected={category}
+          setCategory={hadleCategorySelect}
         />
+
+        <View style={style.content}>
+          <ListHeader title="Partidas agendadas" subtitle="Total 6" />
+          <FlatList
+            data={appointments}
+            keyExtractor={(item) => item.id}
+            renderItem={({ item }) => <Appointment data={item} />}
+            ItemSeparatorComponent={() => <ListDivider />}
+            style={style.matches}
+            showsVerticalScrollIndicator={false}
+          />
+        </View>
       </View>
-    </View>
+    </Background>
   );
 }

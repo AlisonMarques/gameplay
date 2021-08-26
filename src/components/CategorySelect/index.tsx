@@ -7,10 +7,15 @@ import { CardCategory } from '../CardCategory';
 
 type Props = {
   categorySelected: string;
+  hashCheckBox?: boolean;
   setCategory: (categoryId: string) => void;
 };
 
-export function CategorySelect({ categorySelected, setCategory}: Props) {
+export function CategorySelect({
+  categorySelected,
+  hashCheckBox = false,
+  setCategory,
+}: Props) {
   return (
     <ContainerScroll
       horizontal
@@ -24,6 +29,7 @@ export function CategorySelect({ categorySelected, setCategory}: Props) {
           icon={category.icon}
           checked={category.id === categorySelected}
           onPress={() => setCategory(category.id)}
+          hashCheckBox={hashCheckBox}
         />
       ))}
     </ContainerScroll>
