@@ -3,19 +3,14 @@ import { theme } from '../../global/styles/theme';
 
 export const style = StyleSheet.create({
   container: {
-    width: '100%',
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    paddingHorizontal: 24,
-  },
-  title: {
-    fontFamily: theme.fonts.title700,
+    width: 48,
+    height: 48,
+    backgroundColor: theme.colors.secondary40,
     color: theme.colors.heading,
-    fontSize: 18,
-  },
-  subtitle: {
+    borderRadius: 8,
     fontFamily: theme.fonts.text400,
-    color: theme.colors.highlight,
     fontSize: 13,
+    marginRight: 4,
+    textAlign: 'center',
   },
 });
