@@ -33,9 +33,18 @@ export function AppointmentCreate() {
     setOpenGuildsModal(true);
   }
 
+  function handleCloseGuilds() {
+    setOpenGuildsModal(false);
+  }
+
   function handleGuildSelect(guildSelect: GuildProps) {
     setGuild(guildSelect);
     setOpenGuildsModal(false);
+  }
+
+  // Efeito de marcar e desmarcar o CardCategory
+  function hadleCategorySelect(categoryId: string) {
+    setCategory(categoryId);
   }
   return (
     <KeyboardAvoidingView
@@ -57,7 +66,7 @@ export function AppointmentCreate() {
 
           <CategorySelect
             hashCheckBox
-            setCategory={setCategory}
+            setCategory={hadleCategorySelect}
             categorySelected={category}
           />
 
@@ -82,7 +91,9 @@ export function AppointmentCreate() {
 
             <View style={style.field}>
               <View>
-                <Text style={style.label}>Dia e mês</Text>
+                <Text style={[style.label, { marginBottom: 12 }]}>
+                  Dia e mês
+                </Text>
 
                 <View style={style.column}>
                   <SmallInput maxLength={2} />
@@ -92,7 +103,9 @@ export function AppointmentCreate() {
               </View>
 
               <View>
-                <Text style={style.label}>Hora e minuto</Text>
+                <Text style={[style.label, { marginBottom: 12 }]}>
+                  Hora e minuto
+                </Text>
 
                 <View style={style.column}>
                   <SmallInput maxLength={2} />
@@ -122,7 +135,7 @@ export function AppointmentCreate() {
         </Background>
       </ScrollView>
 
-      <ModalView visible={openGuildsModal}>
+      <ModalView visible={openGuildsModal} closeModal={handleCloseGuilds}>
         <Guilds handleGuildSelect={handleGuildSelect} />
       </ModalView>
     </KeyboardAvoidingView>

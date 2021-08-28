@@ -13,7 +13,6 @@ type Props = {
 export function Guilds({ handleGuildSelect }: Props) {
   const guilds = [
     { id: '1', name: 'Lendários', icon: 'image.png', owner: true },
-
     { id: '2', name: 'Try/Catch', icon: 'image.png', owner: true },
   ];
   return (
@@ -25,7 +24,9 @@ export function Guilds({ handleGuildSelect }: Props) {
           <Guild data={item} onPress={() => handleGuildSelect(item)} />
         )}
         showsVerticalScrollIndicator={false}
-        ItemSeparatorComponent={() => <ListDivider />}
+        ItemSeparatorComponent={() => <ListDivider isCentered />}
+        contentContainerStyle={{ paddingBottom: 68, paddingTop: 103 }}
+        ListHeaderComponent={() => <ListDivider isCentered />}
         style={style.guilds}
       />
     </View>
