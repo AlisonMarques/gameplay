@@ -1,19 +1,26 @@
 import React from 'react';
-import { useNavigation } from '@react-navigation/native';
-import { Dimensions } from 'react-native';
+import { Dimensions, Alert, ActivityIndicator } from 'react-native';
 
 import { ButtonIcon } from '../../components/ButtonIcon';
 import { Background } from '../../components/Background';
 
 import IllustrationImg from '../../assets/illustration.png';
+import { useAuth } from '../../hooks/auth';
+
 import { Container, Content, Title, Img, Subtitle } from './style';
+import { theme } from '../../global/styles/theme';
 
 export function SignIn() {
-  const navigation = useNavigation();
   const win = Dimensions.get('window');
 
-  function handleSignIn() {
-    navigation.navigate('Home');
+  const { loading, signIn } = useAuth();
+
+  async function handleSignIn() {
+    try {
+      await signIn();
+    } catch (error) {
+      Alert.alert(error);
+    }
   }
 
   return (
@@ -36,11 +43,15 @@ export function SignIn() {
             favoritos com seus amigos
           </Subtitle>
 
-          <ButtonIcon
-            title="Entrar com Discord"
-            activeOpacity={0.7}
-            onPress={handleSignIn}
-          />
+          {loading ? (
+            <ActivityIndicator color={theme.colors.primary} />
+          ) : (
+            <ButtonIcon
+              title="Entrar com Discord"
+              activeOpacity={0.7}
+              onPress={handleSignIn}
+            />
+          )}
         </Content>
       </Container>
     </Background>

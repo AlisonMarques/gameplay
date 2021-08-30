@@ -1,18 +1,20 @@
 import React from 'react';
 import { View } from 'react-native';
+import { useAuth } from '../../hooks/auth';
 import { Avatar } from '../Avatar';
 import { Container, Greeting, Message, User, Username } from './style';
 
 export function Profile() {
+  const { user } = useAuth();
   return (
     <Container>
-      <Avatar urlImage="https://github.com/alisonmarques.png" />
+      <Avatar urlImage={user.avatar} />
 
       <View>
         <User>
           <Greeting>Olá,</Greeting>
 
-          <Username>Alison</Username>
+          <Username>{user.firstName}</Username>
         </User>
 
         <Message>Hoje é dia de vitória</Message>
