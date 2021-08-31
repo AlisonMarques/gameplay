@@ -1,5 +1,9 @@
 import React, { useState } from 'react';
 import { RectButton } from 'react-native-gesture-handler';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import { COLLLECTION_APPOINTMENTS } from '../../configs/database';
+import uuid from 'react-native-uuid';
+import { useNavigation } from '@react-navigation/native';
 
 import { Background } from '../../components/Background';
 import { Header } from '../../components/Header';
@@ -29,14 +33,26 @@ export function AppointmentCreate() {
   const [openGuildsModal, setOpenGuildsModal] = useState(false);
   const [guild, setGuild] = useState<GuildProps>({} as GuildProps);
 
+  const navigation = useNavigation();
+
+  //Estados para salvar os dados de agendamentos
+  const [day, setDay] = useState('');
+  const [month, setMonth] = useState('');
+  const [hour, setHour] = useState('');
+  const [minute, setMinute] = useState('');
+  const [description, setDescription] = useState('');
+
+  // Abre o modal
   function handleOpenGuilds() {
     setOpenGuildsModal(true);
   }
 
+  // Fecha o modal
   function handleCloseGuilds() {
     setOpenGuildsModal(false);
   }
 
+  // Função que captura o servidor quando ao clicar
   function handleGuildSelect(guildSelect: GuildProps) {
     setGuild(guildSelect);
     setOpenGuildsModal(false);
@@ -46,6 +62,35 @@ export function AppointmentCreate() {
   function hadleCategorySelect(categoryId: string) {
     setCategory(categoryId);
   }
+
+  const dateFormat = `${day}/${month} às ${hour}:${minute}`;
+
+  // Função que irá salvar os agendamentos
+  async function handleSave() {
+    const newAppointment = {
+      //gerando id com o uuid
+      id: uuid.v4(),
+      guild,
+      category,
+      date: dateFormat,
+      description,
+    };
+
+    //buscando os dados da tabela
+    const storage = await AsyncStorage.getItem(COLLLECTION_APPOINTMENTS);
+
+    // Verificandos se algum dado já salvo
+    const appointments = storage ? JSON.parse(storage) : [];
+
+    //Salvando tudo que já tinha antes e adicionando os dados novos também
+    await AsyncStorage.setItem(
+      COLLLECTION_APPOINTMENTS,
+      JSON.stringify([...appointments, newAppointment])
+    );
+
+    navigation.navigate('Home');
+  }
+
   return (
     <KeyboardAvoidingView
       behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
@@ -73,7 +118,11 @@ export function AppointmentCreate() {
           <View style={style.form}>
             <RectButton onPress={handleOpenGuilds}>
               <View style={style.select}>
-                {guild.icon ? <GuildIcon /> : <View style={style.image} />}
+                {guild.icon ? (
+                  <GuildIcon guildId={guild.id} iconId={guild.icon} />
+                ) : (
+                  <View style={style.image} />
+                )}
 
                 <View style={style.selectBody}>
                   <Text style={style.label}>
@@ -96,9 +145,9 @@ export function AppointmentCreate() {
                 </Text>
 
                 <View style={style.column}>
-                  <SmallInput maxLength={2} />
+                  <SmallInput maxLength={2} onChangeText={setDay} />
                   <Text style={style.divider}>/</Text>
-                  <SmallInput maxLength={2} />
+                  <SmallInput maxLength={2} onChangeText={setMonth} />
                 </View>
               </View>
 
@@ -108,9 +157,9 @@ export function AppointmentCreate() {
                 </Text>
 
                 <View style={style.column}>
-                  <SmallInput maxLength={2} />
+                  <SmallInput maxLength={2} onChangeText={setHour} />
                   <Text style={style.divider}>:</Text>
-                  <SmallInput maxLength={2} />
+                  <SmallInput maxLength={2} onChangeText={setMinute} />
                 </View>
               </View>
             </View>
@@ -126,10 +175,15 @@ export function AppointmentCreate() {
               maxLength={100}
               numberOfLines={5}
               autoCorrect={false}
+              onChangeText={setDescription}
             />
 
             <View style={style.footer}>
-              <Button title="Agendar" activeOpacity={0.7} />
+              <Button
+                title="Agendar"
+                activeOpacity={0.7}
+                onPress={handleSave}
+              />
             </View>
           </View>
         </Background>

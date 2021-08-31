@@ -40,14 +40,14 @@ export function Appointment({ data, ...rest }: Props) {
           style={style.guildIconContainer}
           colors={[secondary50, secondary70]}
         >
-          <GuildIcon />
+          <GuildIcon guildId={data.guild.id} iconId={data.guild.icon} />
         </LinearGradient>
 
         <View style={style.content}>
           <View style={style.header}>
             <Text style={style.title}>{data.guild.name}</Text>
 
-            <Text style={style.category}>{category.title}</Text>
+            <Text style={style.category}>{category?.title}</Text>
           </View>
 
           <View style={style.footer}>
