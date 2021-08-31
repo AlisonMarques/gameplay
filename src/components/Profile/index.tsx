@@ -31,7 +31,7 @@ export function Profile() {
         <User>
           <Greeting>Olá,</Greeting>
 
-          <Username>{user.firstName}</Username>
+          <Username>Alison</Username>
         </User>
 
         <Message>Hoje é dia de vitória</Message>
